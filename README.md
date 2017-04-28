@@ -23,6 +23,8 @@
 
 PRs accepted.
 
+## Links
+- [7-universal-story-plots-that-still-entrance-audiences/](http://www.sparkol.com/engage/the-7-universal-story-plots-that-still-entrance-audiences/)
 ## License
 
-MIT © Richard McRichface
+MIT © Dmitri Kunin
