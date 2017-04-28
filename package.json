@@ -1,0 +1,26 @@
+{
+  "name": "story-generator",
+  "version": "0.0.1",
+  "private": false,
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dkunin/story-generator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dkunin/story-generator/issues"
+  },
+  "scripts": {
+    "pretty": "pretty ./*.js"
+  },
+  "homepage": "https://github.com/dkunin/story-generator",
+  "keywords": [
+    "story,",
+    "generator,",
+    "children,",
+    "plays,",
+    "puppets"
+  ],
+  "license": "MIT",
+  "description": "> This is an example file with default selections."
+}
