@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
-
     const API = {
         children: {
             character: 'children/php/character1.php',
+            character2: 'children/php/character1.php',
             setting: 'children/php/setting.php',
             situation: 'children/php/situation.php',
             title: 'children/php/title2.php',
@@ -11,37 +11,48 @@ document.addEventListener('DOMContentLoaded', function() {
         main: {
             quickplot: 'php/quickplot.php',
             character: 'php/character1.php',
+            character2: 'php/character1.php',
             setting: 'php/setting.php',
             situation: 'php/situation.php',
             theme: 'php/theme.php',
             reaction: 'php/reaction.php'
         }
-    }
+    };
 
-    Object.defineProperty(Vue.prototype, '$proxy', { value: 'https://allow-any-origin.appspot.com/' });
-    Object.defineProperty(Vue.prototype, '$randomize', { value: 'http://writingexercises.co.uk/' });
+    Object.defineProperty(Vue.prototype, '$proxy', {
+        value: 'https://allow-any-origin.appspot.com/'
+    });
+    Object.defineProperty(Vue.prototype, '$randomize', {
+        value: 'http://writingexercises.co.uk/'
+    });
     Object.defineProperty(Vue.prototype, '$api', { value: API });
 
     const vueSettings = {
         el: '#app',
         template: document.querySelector('.generatedStuff').innerHTML,
         data: {
-            childrenStuff: {
-                character: ''
-            },
-            mainStuff: {}
+            children: {},
+            main: {},
+            loading: false
         },
         methods: {
             generateLink(url) {
-                return new Promise((resolve, reject) => {
-                    fetch(this.$proxy + this.$randomize + url + '?_=' + new Date().getTime())
+                return new Promise(resolve => {
+                    fetch(
+                        this.$proxy +
+                            this.$randomize +
+                            url +
+                            '?_=' +
+                            new Date().getTime()
+                    )
                         .then(res => res.text())
-                        .then(resolve)
-                })
+                        .then(resolve);
+                });
             },
-            updateStuff(key, data) {
-                const originalData = this.childrenStuff;
-                this.childrenStuff = Object.keys(originalData).concat([key])
+            updateStuff(key, data, base) {
+                const originalData = this[base];
+                this[base] = Object.keys(originalData)
+                    .concat([ key ])
                     .reduce((newObject, singleKey) => {
                         if (singleKey === key) {
                             newObject[key] = data;
@@ -50,15 +61,19 @@ document.addEventListener('DOMContentLoaded', function() {
                         newObject[singleKey] = originalData[singleKey];
                         return newObject;
                     }, {});
+                this.loading = false;
             },
             getRandomItem(base, key) {
-                this.generateLink(this.$api[base][key])
-                    .then((result) => {
-                        this.updateStuff(key, result);
-                    })
+                if (this.loading) {
+                    return false;
+                }
+                this.loading = true;
+                this.generateLink(this.$api[base][key]).then(result => {
+                    this.updateStuff(key, result.replace('<br>', ''), base);
+                });
             }
         }
     };
 
-    const app = new Vue(vueSettings);
+    new Vue(vueSettings);
 });

@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Stories generate</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.0/vue.min.js"></script>
     <style>
         * {
@@ -15,10 +17,24 @@
         ul {
             padding: 0;
             margin: 0;
-            width: 30%
+            width: 30%;
+            list-style: none;
         }
         .generated-stuff {
             width: 70%;
+            padding: 10px;
+        }
+        button {
+            background-color: #c2c2c2;
+            outline: none;
+            border: none;
+            padding: 10px;
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .loading button {
+            opacity: .2;
         }
     </style>
 </head>
@@ -28,25 +44,38 @@
       <div>
         <h2>Main</h2>
         <div class="pane-split">
-            <ul>
+            <div class="generated-stuff">
+                {{main.character}}
+                {{main.character2}}
+                {{main.setting}}
+                {{main.situation}}
+                {{main.theme}}
+                {{main.reaction}}
+                <hr>
+                {{main.quickplot}}
+            </div>
+            <ul :class="loading ? 'loading' : ''">
                 <li v-for="(elem, key) in $api.main">
                     <button @click="getRandomItem('main', key)">{{key}}</button>
                 </li>
             </ul>
-            <div class="generated-stuff">
-                
-            </div>
         </div>
         <h2>Children</h2>
         <div class="pane-split">
-            <ul>
+            <div class="generated-stuff">
+                {{children.title}}
+                {{children.character2}}
+                {{children.character}}
+                {{children.setting}}
+                {{children.situation}}
+                <hr>
+                {{children.firstlinef}}
+            </div>
+            <ul :class="loading ? 'loading' : ''">
                 <li v-for="(elem, key) in $api.children">
                     <button @click="getRandomItem('children', key)">{{key}}</button>
                 </li>
             </ul>
-            <div class="generated-stuff">
-                {{childrenStuff}}
-            </div>
         </div>
       </div>
     </script>
